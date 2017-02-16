@@ -272,8 +272,7 @@
 			'searchNumberByDescendants': { verb: 'GET', url: 'accounts/{accountId}/descendants/port_requests?by_number={number}' }
 		},
 		presence: {
-			'list': { verb: 'GET', url: 'accounts/{accountId}/presence' },
-			'detail': { verb: 'GET', url: 'accounts/{accountId}/presence/{presenceId}' },
+			'list': { verb: 'GET', url: 'accounts/{accountId}/presence?include_presentity=true' },
 			'update': { verb: 'POST', url: 'accounts/{accountId}/presence/{presenceId}' }
 		},
 		qubicleQueues: {
