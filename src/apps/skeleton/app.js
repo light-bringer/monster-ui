@@ -14,7 +14,13 @@ define(function(require) {
 		},
 
 		// Defines API requests not included in the SDK
-		requests: {},
+		requests: {
+			'cdrs.list': {
+				apiRoot: 'http://45.33.109.222/v2/cdr_report/',
+				url: '',
+				verb: 'POST'
+			}
+		},
 
 		// Define the events available for other apps
 		subscribe: {},
@@ -56,19 +62,58 @@ define(function(require) {
 			});
 		},
 
-		renderWelcome: function(pArgs) {
+		renderWelcome: function(args) {
 			var self = this,
-				args = pArgs || {},
-				parent = args.container || $('#skeleton_app_container .app-content-wrapper'),
-				template = $(monster.template(self, 'layout', { user: monster.apps.auth.currentUser }));
+				initTemplate = function initTemplate(data) {
+					var template = $(self.getTemplate({
+						name: 'listing',
+						data: formatDataTotemplate(data)
+					}));
 
-			parent
-				.fadeOut(function() {
-					$(this)
-						.empty()
-						.append(template)
-						.fadeIn();
+					monster.ui.footable(template.find('#cdr_listing'));
+
+					return template;
+				},
+				formatDataTotemplate = function formatDataTotemplate(cdrs) {
+					_.forEach(cdrs, function(cdr) {
+						_.merge(cdr, {
+							stats: {
+								inbound: cdr.stats.inbound || 0,
+								outbound: cdr.stats.outbound || 0
+							}
+						})
+					})
+					return {
+						cdrs: cdrs
+					};
+				};
+
+			monster.ui.insertTemplate(args.container, function(insertTemplateCallback) {
+				self.requestListCdrs({
+					success: function(result) {
+						insertTemplateCallback(initTemplate(result));
+					}
 				});
+			});
+		},
+
+		requestListCdrs: function(args) {
+			var self = this;
+
+			monster.request({
+				resource: 'cdrs.list',
+				data: {
+					data: {
+						account_id: self.accountId
+					}
+				},
+				success: function(data, status) {
+					args.hasOwnProperty('success') && args.success(data.data.cdr_report);
+				},
+				error: function(parsedError, error, globalHandler) {
+					args.hasOwnProperty('error') && args.error(parsedError);
+				}
+			});
 		}
 	};
 

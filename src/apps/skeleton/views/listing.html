@@ -1,0 +1,46 @@
+<div class="app-content">
+	<div class="monster-table-wrapper-spaced">
+		<table class="monster-table" id="cdr_listing">
+			<thead>
+				<tr>
+					<th>
+						{{i18n.skeletonApp.tableHeaders.user}}
+					</th>
+					<th>
+						{{i18n.skeletonApp.tableHeaders.inbound}}
+					</th>
+					<th>
+						{{i18n.skeletonApp.tableHeaders.outbound}}
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			{{#each cdrs}}
+				<tr data-id="{{@key}}">
+					<td>
+						{{name}}
+					</td>
+					<td>
+				{{#with stats}}
+					{{#if inbound}}
+						{{inbound}}
+					{{else}}
+						0
+					{{/if}}
+					</td>
+					<td>
+					{{#if outbound}}
+						{{outbound}}
+					{{else}}
+						0
+					{{/if}}
+					</td>
+				{{/with}}
+					<td></td>
+				</tr>
+			{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
