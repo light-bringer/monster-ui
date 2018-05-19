@@ -22,10 +22,10 @@
 
 ### Install
 
-Clone the official `monster-ui` repository:
+Clone my fork of Official `monster-ui` repository:
 
 ```
-git clone https://github.com/2600hz/monster-ui.git monster-ui
+git clone https://github.com/light-bringer/monster-ui.git monster-ui
 ```
 
 Go to the project's folder:
