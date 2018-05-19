@@ -5,7 +5,7 @@ if [[ "$1" != 'no-update' ]]; then
     for app in ./*/; do
         pushd "$app"
         gu="$(git config --get remote.origin.url)"
-        if [[ 'git@github.com:2600hz/monster-ui.git' != "$gu" ]]; then
+        if [[ 'git@github.com:light-bringer/monster-ui.git' != "$gu" ]]; then
             echo Pulling from "$gu"
             git pull
         fi
